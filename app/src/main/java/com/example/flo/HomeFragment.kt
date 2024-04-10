@@ -18,7 +18,8 @@ class HomeFragment : Fragment() {
     ): View? {
         FragmentHomeBinding.inflate(inflater, container, false).also { binding = it }
 
-        binding.homePannelAlbumImgIv.setOnClickListener {
+        binding.homeTodayAlbumIv.setOnClickListener {
+            (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_frm,AlbumFragment()).commitAllowingStateLoss()
 
         }
 

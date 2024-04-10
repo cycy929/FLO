@@ -25,6 +25,7 @@
             android:name=".SongActivity"
             android:exported="true">
         </activity>
+
     </application>
 
 </manifest>

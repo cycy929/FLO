@@ -28,6 +28,11 @@ class SongActivity : AppCompatActivity() {
             setPlayerStatus(true)
         }
 
+        if(intent.hasExtra("title") && intent.hasExtra("singer")){
+            binding.songMusicTitleTv.text = intent.getStringExtra("title")
+            binding.songSingerNameTv.text = intent.getStringExtra("singer")
+        }
+
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
