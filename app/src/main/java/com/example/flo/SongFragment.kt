@@ -18,6 +18,25 @@ class SongFragment: Fragment() {
     ): View? {
         binding = FragmentSongBinding.inflate(inflater,container,false)
 
+        binding.songMixoffTg.setOnClickListener {
+            setMixStatus(true)
+        }
+
+        binding.songMixonTg.setOnClickListener {
+            setMixStatus(false)
+        }
+
         return binding.root
+    }
+
+    fun setMixStatus(isMix : Boolean){
+        if(isMix){
+            binding.songMixonTg.visibility = View.VISIBLE
+            binding.songMixoffTg.visibility = View.GONE
+        }
+        else{
+            binding.songMixonTg.visibility = View.GONE
+            binding.songMixoffTg.visibility = View.VISIBLE
+        }
     }
 }
