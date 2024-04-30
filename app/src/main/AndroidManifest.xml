@@ -29,6 +29,14 @@
             android:name=".MainActivity"
             android:exported="false"/>
 
+        <activity
+            android:name=".MemoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MemoCheckActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

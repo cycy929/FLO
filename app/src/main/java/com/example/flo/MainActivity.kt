@@ -5,16 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import androidx.activity.result.ActivityResultLauncher
 import com.example.flo.databinding.ActivityMainBinding
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-
+    lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+    private var song : Song = Song()
+    private var gson : Gson = Gson()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val song = Song(binding.mainMiniplayerTitleTv.text.toString(),binding.mainMiniplayerSingerTv.text.toString(),0,60,false)
+        val song = Song(binding.mainMiniplayerTitleTv.text.toString(),binding.mainMiniplayerSingerTv.text.toString(),0,60,false,"music_lilac")
 
         binding.mainPlayerCl.setOnClickListener{
             //startActivity(Intent(this,SongActivity::class.java))
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("second",song.second)
             intent.putExtra("playTime", song.playTime)
             intent.putExtra("isPlaying",song.isPlaying)
+            intent.putExtra("music", song.music)
             startActivity(intent)
         }
 
@@ -74,6 +79,26 @@ class MainActivity : AppCompatActivity() {
             }
             false
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val songJson = sharedPreferences.getString("songData", null)
+
+        song = if(songJson == null) { // 최초 실행 시
+            Song("라일락", "아이유(IU)", 0, 60, false, "music_lilac")
+        } else { // SongActivity에서 노래가 한번이라도 pause 된 경우
+            gson.fromJson(songJson, Song::class.java)
+        }
+
+        setMiniPlayer(song)
+    }
+
+    private fun setMiniPlayer(song : Song) {
+        binding.mainMiniplayerTitleTv.text = song.title
+        binding.mainMiniplayerSingerTv.text = song.singer
+        binding.mainMiniplayerProgressSb.progress = (song.second * 100000 / song.playTime)
     }
 
 }
