@@ -235,110 +235,15 @@
            app:layout_constraintTop_toBottomOf="@id/indicator"
            app:layout_constraintEnd_toEndOf="parent"/>
 
-       <ImageView
-           android:id="@+id/home_today_album_iv"
-           android:layout_width="130dp"
-           android:layout_height="130dp"
-           android:layout_marginStart="20dp"
-           android:layout_marginTop="8dp"
-           android:src="@drawable/img_album_exp2"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@id/home_today_realease_tv" />
-
-       <TextView
-           android:id="@+id/home_today_album_title_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="LILAC"
-           android:textColor="@color/black"
-           android:textStyle="bold"
-           android:textSize="20sp"
-           android:layout_marginStart="20dp"
-           android:layout_marginTop="8dp"
-           app:layout_constraintTop_toBottomOf="@id/home_today_album_iv"
-           app:layout_constraintStart_toStartOf="parent"/>
-
-       <TextView
-           android:id="@+id/home_today_album_singer_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="chaery"
-           android:textColor="@color/gray_color"
-           android:textStyle="normal"
-           android:textSize="16sp"
-           android:layout_marginStart="20dp"
-           app:layout_constraintTop_toBottomOf="@id/home_today_album_title_tv"
-           app:layout_constraintStart_toStartOf="parent"/>
-
-       <ImageView
-           android:id="@+id/home_today_album2_iv"
-           android:layout_width="130dp"
-           android:layout_height="130dp"
-           android:src="@drawable/img_album_exp"
-           android:layout_marginStart="20dp"
-           android:layout_marginTop="8dp"
-           app:layout_constraintStart_toEndOf="@id/home_today_album_iv"
-           app:layout_constraintTop_toBottomOf="@id/home_today_realease_tv"/>
-
-       <TextView
-           android:id="@+id/home_today_album_title2_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="With My Cat"
-           android:textColor="@color/black"
-           android:textStyle="bold"
-           android:textSize="20sp"
-           android:layout_marginStart="170dp"
-           android:layout_marginTop="8dp"
-           app:layout_constraintTop_toBottomOf="@id/home_today_album2_iv"
-           app:layout_constraintStart_toStartOf="parent"/>
-
-       <TextView
-           android:id="@+id/home_today_album_singer2_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="chaery"
-           android:textColor="@color/gray_color"
-           android:textStyle="normal"
-           android:textSize="16sp"
-           android:layout_marginStart="170dp"
-           app:layout_constraintTop_toBottomOf="@id/home_today_album_title2_tv"
-           app:layout_constraintStart_toStartOf="parent"/>
-
-       <ImageView
-           android:id="@+id/home_today_album3_iv"
-           android:layout_width="130dp"
-           android:layout_height="130dp"
-           android:src="@drawable/img_album_exp"
-           android:layout_marginStart="20dp"
-           android:layout_marginTop="8dp"
-           app:layout_constraintStart_toEndOf="@id/home_today_album2_iv"
-           app:layout_constraintTop_toBottomOf="@id/home_today_realease_tv"/>
-
-       <TextView
-           android:id="@+id/home_today_album_title3_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="With My Cat"
-           android:textColor="@color/black"
-           android:textStyle="bold"
-           android:textSize="20sp"
-           android:layout_marginStart="320dp"
-           android:layout_marginTop="8dp"
-           app:layout_constraintTop_toBottomOf="@id/home_today_album3_iv"
-           app:layout_constraintStart_toStartOf="parent"/>
-
-       <TextView
-           android:id="@+id/home_today_album_singer3_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="chaery"
-           android:textColor="@color/gray_color"
-           android:textStyle="normal"
-           android:textSize="16sp"
-           android:layout_marginStart="320dp"
-           app:layout_constraintTop_toBottomOf="@id/home_today_album_title3_tv"
-           app:layout_constraintStart_toStartOf="parent"/>
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/home_today_music_album_rv"
+           android:layout_width="match_parent"
+           android:layout_height="210dp"
+           android:layout_marginTop="10dp"
+           tools:listitem="@layout/item_album"
+           app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+           android:orientation="horizontal"
+           app:layout_constraintTop_toBottomOf="@id/home_today_realease_out_tv"/>
 
 
        <androidx.viewpager2.widget.ViewPager2
@@ -349,7 +254,7 @@
            app:layout_constraintBottom_toTopOf="@id/home_potcast_tv"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintTop_toBottomOf="@id/home_today_album_singer_tv"/>
+           app:layout_constraintTop_toBottomOf="@id/home_today_music_album_rv"/>
 
        <TextView
            android:id="@+id/home_potcast_tv"
