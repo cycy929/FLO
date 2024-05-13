@@ -18,12 +18,19 @@ import com.google.gson.Gson
 import java.util.Timer
 import kotlin.concurrent.scheduleAtFixedRate
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), AlbumRVAdapter.CommunicationInterface {
 
     lateinit var binding: FragmentHomeBinding
     private var albumDatas = ArrayList<Album>()
     private val timer = Timer()
     private val handler = Handler(Looper.getMainLooper())
+
+    override fun sendData(album: Album) {
+        if (activity is MainActivity) {
+            val activity = activity as MainActivity
+            activity.updateMiniPlayer(album)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +66,10 @@ class HomeFragment : Fragment() {
 
             override fun onItemClick(album: Album) {
                 changeAlbumFragment(album)
+            }
+
+            override fun onPlayAlbum(album: Album) {
+                sendData(album)
             }
 
             override fun onRemoveAlbum(position: Int) {

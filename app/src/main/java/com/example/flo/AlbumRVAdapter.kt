@@ -12,6 +12,7 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
     interface MyItemClickListener{
         fun onItemClick(album: Album)
         fun onRemoveAlbum(position: Int)
+        fun onPlayAlbum(album: Album)
     }
 
     // 리스너 객체를 전달받는 함수랑 리스너 객체를 저장할 변수
@@ -42,7 +43,18 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: AlbumRVAdapter.ViewHolder, position: Int) {
         holder.bind(albumList[position])
         holder.itemView.setOnClickListener { mItemClickListener.onItemClick(albumList[position]) }
+        holder.binding.itemAlbumPlayImgIv.setOnClickListener { mItemClickListener.onItemClick(albumList[position])
+        }
 //        holder.binding.itemAlbumTitleTv.setOnClickListener { mItemClickListener.onRemoveAlbum(position) } //삭제됐을 때
+    }
+    interface OnItemClickListener {
+        fun onItemClick(album : Album)
+        fun onPlayAlbum(album : Album)
+    }
+
+    //Fragment와 그 Fragment를 호스팅 중인 액티비티 간의 통신
+    interface CommunicationInterface {
+        fun sendData(album: Album)
     }
 
     // 데이터 세트 크기를 알려주는 함수 => 리사이클러뷰가 마지막이 언제인지를 알게 된다.
