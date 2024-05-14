@@ -102,9 +102,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateMiniPlayer(album : Album) {
-        binding.mainMiniplayerTitleTv.text = song.title
-        binding.mainMiniplayerSingerTv.text = song.singer
-        binding.mainMiniplayerProgressSb.progress = (song.second * 100000 / song.playTime)
+        Log.d("MainActivity", "Updating mini player with album: ${album.title}, ${album.singer}")
+        binding.mainMiniplayerTitleTv.text = album.title
+        binding.mainMiniplayerSingerTv.text = album.singer
+        if (album.playTime != 0) {
+            binding.mainMiniplayerProgressSb.progress = (album.second * 100000 / album.playTime)
+        } else {
+            binding.mainMiniplayerProgressSb.progress = 0
+        }
     }
 
 }

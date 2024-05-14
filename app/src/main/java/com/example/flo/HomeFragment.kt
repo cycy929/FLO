@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ import com.google.gson.Gson
 import java.util.Timer
 import kotlin.concurrent.scheduleAtFixedRate
 
-class HomeFragment : Fragment(), AlbumRVAdapter.CommunicationInterface {
+class HomeFragment : Fragment(),CommunicationInterface {
 
     lateinit var binding: FragmentHomeBinding
     private var albumDatas = ArrayList<Album>()
@@ -28,6 +29,7 @@ class HomeFragment : Fragment(), AlbumRVAdapter.CommunicationInterface {
     override fun sendData(album: Album) {
         if (activity is MainActivity) {
             val activity = activity as MainActivity
+            Log.d("HomeFragment", "sendData called with album: ${album.title}")
             activity.updateMiniPlayer(album)
         }
     }
@@ -68,12 +70,12 @@ class HomeFragment : Fragment(), AlbumRVAdapter.CommunicationInterface {
                 changeAlbumFragment(album)
             }
 
-            override fun onPlayAlbum(album: Album) {
-                sendData(album)
-            }
-
             override fun onRemoveAlbum(position: Int) {
                 albumRVAdapter.removeItem(position)
+            }
+
+            override fun onPlayAlbum(album: Album) {
+                sendData(album)
             }
         })
 
