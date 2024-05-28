@@ -23,14 +23,14 @@ class HomeFragment : Fragment(),CommunicationInterface {
 
     lateinit var binding: FragmentHomeBinding
     private var albumDatas = ArrayList<Album>()
+    private lateinit var songDB: SongDatabase
     private val timer = Timer()
     private val handler = Handler(Looper.getMainLooper())
 
     override fun sendData(album: Album) {
         if (activity is MainActivity) {
             val activity = activity as MainActivity
-            Log.d("HomeFragment", "sendData called with album: ${album.title}")
-            activity.updateMiniPlayer(album)
+            activity.updateMainPlayerCl(album)
         }
     }
 
@@ -41,28 +41,22 @@ class HomeFragment : Fragment(),CommunicationInterface {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        inputDummyAlbums()
+
+        songDB = SongDatabase.getInstance(requireContext())!!
+        albumDatas.addAll(songDB.albumDao().getAlbums())
+        Log.d("albumlist", albumDatas.toString())
+
+        val albumRVAdapter = AlbumRVAdapter(albumDatas)
+        binding.homeTodayMusicAlbumRv.adapter = albumRVAdapter
+        binding.homeTodayMusicAlbumRv.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
 //        binding.homeAlbumImgIv1.setOnClickListener {
 //            (context as MainActivity).supportFragmentManager.beginTransaction()
 //                .replace(R.id.main_frm , AlbumFragment())
 //                .commitAllowingStateLoss()
 //        }
 
-        // 데이터 리스트 생성 더미 데이터
-        albumDatas.apply {
-            add(Album("Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp))
-            add(Album("Lilac", "아이유 (IU)", R.drawable.img_album_exp2))
-            add(Album("Next Level", "에스파 (AESPA)", R.drawable.img_album_exp3))
-            add(Album("Boy with Luv", "방탄소년단 (BTS)", R.drawable.img_album_exp4))
-            add(Album("BBoom BBoom", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5))
-            add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
-        }
 
-        // 더미데이터랑 Adapter 연결
-        val albumRVAdapter = AlbumRVAdapter(albumDatas)
-        // 리사이클러뷰에 어댑터를 연결
-        binding.homeTodayMusicAlbumRv.adapter = albumRVAdapter
-        // 레이아웃 매니저 설정
-        binding.homeTodayMusicAlbumRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         albumRVAdapter.setMyItemClickListener(object : AlbumRVAdapter.MyItemClickListener{
 
@@ -131,6 +125,61 @@ class HomeFragment : Fragment(),CommunicationInterface {
             return binding.root
         }
 
+    private fun inputDummyAlbums(){
+        val songDB = SongDatabase.getInstance(requireActivity())!!
+        val songs = songDB.albumDao().getAlbums()
+
+        if (songs.isNotEmpty()) return
+
+        songDB.albumDao().insert(
+            Album(
+                1,
+                "IU 5th Album 'LILAC'",
+                "아이유 (IU)",
+                R.drawable.img_album_exp2
+            )
+        )
+
+        songDB.albumDao().insert(
+            Album(
+                2,
+                "Butter",
+                "방탄소년단 (BTS)",
+                R.drawable.img_album_exp
+            )
+        )
+
+        songDB.albumDao().insert(
+            Album(
+                3,
+                "iScreaM Vol.10: Next Level Remixes",
+                "에스파 (AESPA)",
+                R.drawable.img_album_exp3
+            )
+        )
+
+        songDB.albumDao().insert(
+            Album(
+                4,
+                "Map of the Soul Persona",
+                "방탄소년단 (BTS)",
+                R.drawable.img_album_exp4,
+            )
+        )
+
+
+        songDB.albumDao().insert(
+            Album(
+                5,
+                "Great!",
+                "모모랜드 (MOMOLAND)",
+                R.drawable.img_album_exp5
+            )
+        )
+
+        val songDBData = songDB.albumDao().getAlbums()
+        Log.d("DB data", songDBData.toString())
+    }
     private fun changeAlbumFragment(album: Album) {
         (context as MainActivity).supportFragmentManager.beginTransaction()
             .replace(R.id.main_frm, AlbumFragment().apply {

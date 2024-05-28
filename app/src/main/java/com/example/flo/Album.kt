@@ -1,13 +1,12 @@
 package com.example.flo
 
-import java.util.ArrayList
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "AlbumTable")
 data class Album(
+    @PrimaryKey(autoGenerate = false) var id: Int = 0,
     var title: String? = "",
     var singer: String? = "",
-    var coverImg: Int? = null,
-
-    var second: Int = 0,
-    var playTime: Int = 0,
-
-    var songs: ArrayList<Song>? = null,
+    var coverImg: Int? = null
 )

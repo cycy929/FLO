@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flo.Album
 import com.example.flo.LockerAlbumRVAdapter
 import com.example.flo.R
+import com.example.flo.Song
+import com.example.flo.SongDatabase
 import com.example.flo.databinding.FragmentLockerSavedsongBinding
 
 class SavedSongFragment : Fragment() {
 
-    private var albumDatas = ArrayList<Album>()
+    lateinit var songDB: SongDatabase
     lateinit var binding : FragmentLockerSavedsongBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,38 +24,30 @@ class SavedSongFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentLockerSavedsongBinding.inflate(inflater, container, false)
 
-        albumDatas.apply {
-            add(Album("Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp))
-            add(Album("Lilac", "아이유 (IU)", R.drawable.img_album_exp2))
-            add(Album("Next Level", "에스파 (AESPA)", R.drawable.img_album_exp3))
-            add(Album("Boy with Luv", "방탄소년단 (BTS)", R.drawable.img_album_exp4))
-            add(Album("BBoom BBoom", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5))
-            add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
-            add(Album("Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp))
-            add(Album("Lilac", "아이유 (IU)", R.drawable.img_album_exp2))
-            add(Album("Next Level", "에스파 (AESPA)", R.drawable.img_album_exp3))
-            add(Album("Boy with Luv", "방탄소년단 (BTS)", R.drawable.img_album_exp4))
-            add(Album("BBoom BBoom", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5))
-            add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
-        }
+        songDB = SongDatabase.getInstance(requireContext())!!
 
-        val lockerAlbumRVAdapter = LockerAlbumRVAdapter(albumDatas)
-        binding.lockerMusicAlbumRv.adapter = lockerAlbumRVAdapter
+        return binding.root
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initRecyclerview()
+    }
+
+    private fun initRecyclerview(){
         binding.lockerMusicAlbumRv.layoutManager = LinearLayoutManager(requireActivity())
+        val lockerAlbumRVAdapter = LockerAlbumRVAdapter()
 
         lockerAlbumRVAdapter.setItemClickListener(object : LockerAlbumRVAdapter.OnItemClickListener {
 
-            override fun onItemClick(album: Album) {
-            }
-
-            override fun onRemoveAlbum(position: Int) {
-                lockerAlbumRVAdapter.removeItem(position)
+            override fun onRemoveAlbum(songId: Int) {
+                songDB.songDao().updateIsLikeById(false, songId)
             }
         })
-
-        return binding.root
+        binding.lockerMusicAlbumRv.adapter = lockerAlbumRVAdapter
+        lockerAlbumRVAdapter.addSongs(songDB.songDao().getLikedSongs(true) as ArrayList<Song>)
     }
 }
