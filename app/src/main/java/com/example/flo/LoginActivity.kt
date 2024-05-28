@@ -40,8 +40,6 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.loginPasswordEt.text.toString()
 
         val songDB = SongDatabase.getInstance(this)!!
-
-        //잘못된 유저 먼저 보여주
         val user = songDB.userDao().getUser(email, password)
 
 
